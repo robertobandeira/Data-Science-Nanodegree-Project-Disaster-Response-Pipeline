@@ -65,6 +65,51 @@ def index():
             }
         }
     ]
+
+    categories = df[df.columns[4:]].sum().sort_values()
+    graphs.append(
+        {
+            'data': [
+                Bar(
+                    x=list(categories.index),
+                    y=list(categories.values)
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
+            }
+        }
+    )
+
+    categories_news = df[df.genre == 'news'][df.columns[4:]].sum().sort_values()
+    graphs.append(
+        {
+            'data': [
+                Bar(
+                    x=list(categories_news.index),
+                    y=list(categories_news.values),
+                    marker_color='indianred'
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of News Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category"
+                }
+            }
+        }
+    )
     
     # encode plotly graphs in JSON
     ids = ["graph-{}".format(i) for i, _ in enumerate(graphs)]
