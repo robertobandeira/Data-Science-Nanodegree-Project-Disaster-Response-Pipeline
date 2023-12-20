@@ -26,7 +26,7 @@ def load_data(database_filepath):
     df = pd.read_sql("Select * from Messages", engine)
     X = df['message']
     Y = df.drop(columns=['id', 'message', 'original', 'genre'])
-    Y = Y.drop(columns=['child_alone']) #EDA verified this column only has zeros
+    # Y = Y.drop(columns=['child_alone']) #EDA verified this column only has zeros
     category_names = list(Y.columns)
     return X, Y, category_names
 

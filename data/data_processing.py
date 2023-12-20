@@ -23,6 +23,10 @@ def clean_data(df):
     df.drop(columns=['categories'], inplace=True)
     df = pd.concat([df, categories], axis=1)
     df.drop_duplicates(inplace=True)
+
+    df = df.loc[:, ~(df == 0).all()] # clears columns with 0 only
+    print(df.head())
+
     return df
 
 
