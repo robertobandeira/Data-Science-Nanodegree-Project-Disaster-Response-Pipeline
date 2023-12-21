@@ -1,5 +1,4 @@
 import sys
-import re
 import pandas as pd
 from sqlalchemy import create_engine
 import nltk
@@ -31,8 +30,7 @@ def load_data(database_filepath):
     return X, Y, category_names
 
 def tokenize(text):
-    word_tokenize_pickle = pickle.dumps(word_tokenize)
-    tokens = pickle.loads(word_tokenize_pickle)(text)
+    tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
     clean_tokens = []
@@ -44,9 +42,8 @@ def tokenize(text):
 
 
 def build_model():
-    tokenize_pickle = pickle.dumps(tokenize)
     pipeline = Pipeline([
-        ('BoW', CountVectorizer(tokenizer=pickle.loads(tokenize_pickle))),
+        ('BoW', CountVectorizer(tokenizer=tokenize)),
         ('tfidf-transf', TfidfTransformer()),
         ('classifier', MultiOutputClassifier(LogisticRegression()))
     ])
