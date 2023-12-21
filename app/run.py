@@ -10,7 +10,11 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 import dill as pickle
 from sqlalchemy import create_engine
+import nltk
 
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('punkt')
 
 app = Flask(__name__)
 
