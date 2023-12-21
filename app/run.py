@@ -30,7 +30,6 @@ engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('Messages', engine)
 
 # load model
-pickle._dill._reverse_typemap['ClassType'] = type
 model = pickle.load(open("models/classifier.pkl", 'rb'))
 
 
@@ -40,12 +39,10 @@ model = pickle.load(open("models/classifier.pkl", 'rb'))
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
