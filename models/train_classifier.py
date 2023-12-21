@@ -50,15 +50,15 @@ def build_model():
     ])
 
     parameters = {
-        'BoW__max_features': [10, 100, 1000, None],
+        # 'BoW__max_features': [10, 100, 1000, None],
         'tfidf-transf__smooth_idf': [True, False],
-        'classifier__estimator__C': [0.001, 0.1, 1, 10],
-        'classifier__estimator__penalty': ['l1', 'l2']
+        # 'classifier__estimator__C': [0.001, 0.1, 1, 10],
+        # 'classifier__estimator__penalty': ['l1', 'l2']
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
-    # return cv # grid search takes too long
-    return pipeline
+    return cv # grid search takes too long
+    # return pipeline
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
