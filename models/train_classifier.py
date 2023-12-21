@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import GridSearchCV
-import pickle
+import dill as pickle
 
 # need to download these files from nltk to use the library
 nltk.download('stopwords')
@@ -31,12 +31,15 @@ def load_data(database_filepath):
     return X, Y, category_names
 
 def tokenize(text):
-    stop_words = stopwords.words("english")
-    lemmatizer = WordNetLemmatizer()
-    text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
     tokens = word_tokenize(text)
-    tokens = [lemmatizer.lemmatize(w) for w in tokens if w not in stop_words]
-    return tokens
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = []
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tokens.append(clean_tok)
+
+    return clean_tokens
 
 
 def build_model():
@@ -47,7 +50,7 @@ def build_model():
     ])
 
     parameters = {
-        'BoW__max_features': [10, 100, 1000, None],
+        # 'BoW__max_features': [10, 100, 1000, None],
         'tfidf-transf__smooth_idf': [True, False],
         # 'classifier__estimator__C': [0.001, 0.1, 1, 10],
         # 'classifier__estimator__penalty': ['l1', 'l2'] #takes too long
