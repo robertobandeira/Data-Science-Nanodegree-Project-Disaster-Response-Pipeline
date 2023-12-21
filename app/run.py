@@ -10,6 +10,7 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
 import dill as pickle
 from sqlalchemy import create_engine
+import dill as pickle
 
 
 app = Flask(__name__)
@@ -137,9 +138,9 @@ def go():
     )
 
 
-def main():
-    app.run(host='0.0.0.0', port=3000, debug=True)
+# def main():
+#     app.run(host='0.0.0.0', port=3000, debug=True)
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
