@@ -31,7 +31,8 @@ def load_data(database_filepath):
     return X, Y, category_names
 
 def tokenize(text):
-    tokens = word_tokenize(text)
+    word_tokenize_pickle = pickle.dumps(word_tokenize)
+    tokens = pickle.loads(word_tokenize_pickle)(text)
     lemmatizer = WordNetLemmatizer()
 
     clean_tokens = []
@@ -43,8 +44,9 @@ def tokenize(text):
 
 
 def build_model():
+    tokenize_pickle = pickle.dumps(tokenize)
     pipeline = Pipeline([
-        ('BoW', CountVectorizer(tokenizer=tokenize)),
+        ('BoW', CountVectorizer(tokenizer=pickle.loads(tokenize_pickle))),
         ('tfidf-transf', TfidfTransformer()),
         ('classifier', MultiOutputClassifier(LogisticRegression()))
     ])
