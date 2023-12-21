@@ -12,6 +12,8 @@ import dill as pickle
 from sqlalchemy import create_engine
 import nltk
 
+import os
+
 nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('punkt')
@@ -34,8 +36,11 @@ engine = create_engine('sqlite:///data/DisasterResponse.db')
 df = pd.read_sql_table('Messages', engine)
 
 # load model
-model = pickle.load(open("models/classifier.pkl", 'rb'))
-
+if os.path.isfile("models/classifier.pkl"):
+    model = pickle.load(open("models/classifier.pkl", 'rb'))
+else:
+    os.system("python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl") 
+    model = pickle.load(open("models/classifier.pkl", 'rb'))
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
