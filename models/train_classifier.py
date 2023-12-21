@@ -12,7 +12,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import GridSearchCV
-import dill as pickle
+# import dill as pickle
+import pickle
 
 # need to download these files from nltk to use the library
 nltk.download('stopwords')
@@ -49,14 +50,15 @@ def build_model():
     ])
 
     parameters = {
-        # 'BoW__max_features': [10, 100, 1000, None],
+        'BoW__max_features': [10, 100, 1000, None],
         'tfidf-transf__smooth_idf': [True, False],
-        # 'classifier__estimator__C': [0.001, 0.1, 1, 10],
-        # 'classifier__estimator__penalty': ['l1', 'l2'] #takes too long
+        'classifier__estimator__C': [0.001, 0.1, 1, 10],
+        'classifier__estimator__penalty': ['l1', 'l2']
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters)
-    return cv
+    # return cv # grid search takes too long
+    return pipeline
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
@@ -70,7 +72,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 def save_model(model, model_filepath):
     with open(model_filepath, 'wb') as file:
-        pickle.dump(model, file, byref=False)
+        pickle.dump(model, file)
 
 
 def main():
